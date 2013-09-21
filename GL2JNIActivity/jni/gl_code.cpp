@@ -223,6 +223,7 @@ QuaternionCamera jetCam;
 Quaternion jetQuat;
 char* dataDir;
 Matrix44 tranformationMatrix;
+float Model[4][4];
 
 static GLfloat xMousePos,yMousePos;
 static GLuint windowWidth,windowHeight;
@@ -328,15 +329,15 @@ void renderFrame() {
     	angle+=1;
     	Vector3 temp(0,0,1);
     	jetQuat.setToRotateAboutAxis(temp,degree2Radian(angle));
-//    	setRotation(angle);
-		//jetCam.getRotMat((float*)&Model[0][0]);
+    	jetCam.getRotMat((float*)&Model[0][0]);
 	}
 
     modelMatrix = tranformationMatrix*(jetQuat.getMatrix());
 
     glUseProgram(gProgram);
     checkGlError("glUseProgram");
-    glUniformMatrix4fv(gMMatrixHandle,1,false,(const float*)(modelMatrix.matData[0]));
+    //glUniformMatrix4fv(gMMatrixHandle,1,false,(const float*)(modelMatrix.matData[0]));
+    glUniformMatrix4fv(gMMatrixHandle,1,false,(const float*)(&Model[0][0]));
     glUniformMatrix4fv(gPMatrixHandle,1,false,(const float*)(projMatrix->matData[0]));
     checkGlError("glUniformMatrix4fv");
     glVertexAttribPointer(gvPositionHandle, 3, GL_FLOAT, GL_FALSE, 0, gTriangleVertices);

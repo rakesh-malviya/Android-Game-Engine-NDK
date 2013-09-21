@@ -279,6 +279,9 @@ bool setup()
 
 bool setupGraphics(int w, int h) {
 
+	//set Model
+	jetCam.getRotMat((float*)&Model[0][0]);
+
 	windowHeight = h;
 	windowWidth = w;
 	//setPerspective(45,0.001,100,w,h);

@@ -1,0 +1,11 @@
+//Hello worlds
+attribute vec4 vPosition;
+attribute vec4 vColor;
+varying vec4 vFinalColor;
+uniform mat4 projMatrix;
+uniform mat4 modelMatrix;
+
+void main() {
+gl_Position = projMatrix*modelMatrix*vPosition;
+vFinalColor = vColor;
+}

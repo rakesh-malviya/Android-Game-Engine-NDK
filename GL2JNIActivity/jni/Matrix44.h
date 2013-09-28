@@ -34,6 +34,7 @@ public:
 	}
 
 	void setRotate(char axis,float angle);
+	void setScale(float x);
 	void setTranslate(float x, float y, float z);
 	void setAsPerspective(float fov, float near, float far, float w , float h);
 

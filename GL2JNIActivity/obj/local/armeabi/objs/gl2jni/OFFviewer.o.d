@@ -1,6 +1,6 @@
-obj/local/armeabi/objs/gl2jni/GameObject.o: jni/GameObject.cpp \
- jni/GameObject.h jni/Quaternion.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/math.h \
+obj/local/armeabi/objs/gl2jni/OFFviewer.o: jni/OFFviewer.cpp \
+ jni/OFFviewer.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/stdio.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/sys/cdefs.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/sys/cdefs_elf.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/android/api-level.h \
@@ -16,6 +16,13 @@ obj/local/armeabi/objs/gl2jni/GameObject.o: jni/GameObject.cpp \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/linux/types.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/machine/kernel.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/sys/sysmacros.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/stdlib.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/string.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/malloc.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/alloca.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/strings.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/memory.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/math.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/limits.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/sys/limits.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/linux/limits.h \
@@ -23,21 +30,12 @@ obj/local/armeabi/objs/gl2jni/GameObject.o: jni/GameObject.cpp \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/machine/limits.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/sys/syslimits.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/asm/page.h \
- jni/Vector3.h jni/Matrix44.h jni/OFFviewer.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/stdio.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/stdlib.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/string.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/malloc.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/alloca.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/strings.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/memory.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/assert.h
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/assert.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/ctype.h
 
-jni/GameObject.h:
+jni/OFFviewer.h:
 
-jni/Quaternion.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/math.h:
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/stdio.h:
 
 C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/sys/cdefs.h:
 
@@ -69,6 +67,20 @@ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-
 
 C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/sys/sysmacros.h:
 
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/stdlib.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/string.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/malloc.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/alloca.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/strings.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/memory.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/math.h:
+
 C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/limits.h:
 
 C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/sys/limits.h:
@@ -83,24 +95,6 @@ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-
 
 C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/asm/page.h:
 
-jni/Vector3.h:
-
-jni/Matrix44.h:
-
-jni/OFFviewer.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/stdio.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/stdlib.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/string.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/malloc.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/alloca.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/strings.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/memory.h:
-
 C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/assert.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/ctype.h:

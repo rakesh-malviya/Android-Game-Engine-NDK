@@ -30,6 +30,7 @@
 #include "Matrix44.h"
 #include "QuaternionCamera.h"
 #include <string.h>
+#include "OFFviewer.h"
 
 #define  LOG_TAG    "libgl2jni"
 #define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
@@ -50,21 +51,38 @@ static void checkGlError(const char* op) {
 static const char gVertexShader[] = 
     "attribute vec4 vPosition;\n"
 	"attribute vec4 vColor;\n"
+	"attribute vec4 vNormal;\n"
 	"varying vec4 vFinalColor;\n"
+	"varying vec3 vertex_to_light_vector;\n"
+	"varying vec3 normal;\n"
 	"uniform mat4 projMatrix;\n"
 	"uniform mat4 modelMatrix;\n"
 
     "void main() {\n"
-    "  gl_Position = projMatrix*modelMatrix*vPosition;\n"
-	" vFinalColor = vColor; \n "
+    "  	gl_Position = projMatrix*modelMatrix*vPosition;\n"
+	"	normal = vec3(normalize(projMatrix*modelMatrix*vNormal));\n"
+	"	vec4 vertex_in_modelview_space = modelMatrix* vPosition;\n"
+	"	vec4 lightPos = vec4(100, 100.0, 100.0, 1.0);\n"
+	"	vertex_to_light_vector = normalize(vec3(vertex_in_modelview_space - lightPos));\n"
+	" 	vFinalColor = vColor;\n "
     "}\n";
 
 static const char gFragmentShader[] =
     "precision mediump float;\n"
 	"varying vec4 vFinalColor;\n"
-    "void main() {\n"
-    "  gl_FragColor = vFinalColor;\n"
-    "}\n";
+	"varying vec3 vertex_to_light_vector;\n"
+	"varying vec3 normal;\n"
+	"void main() {\n"
+	"  	const vec4 AmbientColor = vec4(0.1, 0.0, 0.0, 1.0);\n"
+	"  	const vec4 DiffuseColor = vec4(0.9, 0.9, 0.9, 1.0);\n;"
+	"	vec3 normalized_normal = normalize(normal);\n"
+	"	vec3 normalized_vertex_to_light_vector = normalize(-vertex_to_light_vector);\n"
+	"	float DiffuseTerm = clamp(dot(normalized_normal, normalized_vertex_to_light_vector), 0.0, 1.0);"
+		"	gl_FragColor.x = AmbientColor.x + DiffuseColor.x*DiffuseTerm*vFinalColor.x;\n"
+		"	gl_FragColor.y = AmbientColor.y + DiffuseColor.y*DiffuseTerm*vFinalColor.y;\n"
+		"	gl_FragColor.z = AmbientColor.z + DiffuseColor.z*DiffuseTerm*vFinalColor.z;\n"
+		"	gl_FragColor.w = AmbientColor.w + DiffuseColor.w*DiffuseTerm*vFinalColor.w;\n"
+		    "}\n";
 
 GLuint loadShader(GLenum shaderType, const char* pSource) {
     GLuint shader = glCreateShader(shaderType);
@@ -212,6 +230,7 @@ const GLfloat colorArray[] = {
 
 GLuint gProgram;
 GLuint gvPositionHandle;
+GLuint gvNormalHandle;
 GLuint gvColorHandle;
 GLuint gPMatrixHandle;
 GLuint gMMatrixHandle;
@@ -222,8 +241,13 @@ Matrix44 modelMatrix;
 QuaternionCamera jetCam;
 Quaternion jetQuat;
 char* dataDir;
+float* ManColorArray;
 Matrix44 tranformationMatrix;
+Matrix44 setOriginMatrix;
+Matrix44 setScaleMatrix;
+Matrix44 quatMatrix;
 float Model[4][4];
+Mesh* bird;
 
 static GLfloat xMousePos,yMousePos;
 static GLuint windowWidth,windowHeight;
@@ -268,11 +292,27 @@ bool setup()
 	projMatrix = new Matrix44();
 	angle=0;
 
+	//Seting color
+	ManColorArray  = new float[(bird->nverts)*4];
+	for(int i=0;i<bird->nverts;i++)
+	{
+		ManColorArray[i*4+0] = (float)(rand()%25)/100.0;
+		ManColorArray[i*4+1] = (float)(rand()%50)/100.0 + 0.5;
+		ManColorArray[i*4+2] = (float)(rand()%25)/100.0;
+		ManColorArray[i*4+3] = 1.0;
+	}
+
 	tranformationMatrix.setTranslate(0,0,-150);
+	//setOriginMatrix.setTranslate(-0.433816,-0.8f/2,-0.165791/2);
+	setOriginMatrix.setTranslate(-0.154467,-0.4f,-0.083040);
+	setScaleMatrix.setScale(50);
+	//
+
 
 	glEnable(GL_DEPTH_TEST);	// Hidden surface removal
 	glFrontFace(GL_CCW);		// Counter clock-wise polygons face out
 	glEnable(GL_CULL_FACE);		// Do not calculate inside of jet
+	glCullFace(GL_BACK);
 
 	return true;
 }
@@ -281,6 +321,7 @@ bool setupGraphics(int w, int h) {
 
 	//set Model
 	jetCam.getRotMat((float*)&Model[0][0]);
+	jetCam.getRotMat((float*)&quatMatrix.matData[0][0]);
 
 	windowHeight = h;
 	windowWidth = w;
@@ -307,6 +348,12 @@ bool setupGraphics(int w, int h) {
         LOGI("glGetAttribLocation(\"vColor\") = %d\n",
                 gvColorHandle);
 
+
+	gvNormalHandle = glGetAttribLocation(gProgram, "vNormal");
+		checkGlError("glGetAttribLocation");
+		LOGI("glGetAttribLocation(\"vNormal\") = %d\n",
+				gvNormalHandle);
+
     gPMatrixHandle = glGetUniformLocation(gProgram, "projMatrix");
     gMMatrixHandle = glGetUniformLocation(gProgram, "modelMatrix");
     glViewport(0, 0, w, h);
@@ -332,26 +379,37 @@ void renderFrame() {
     	angle+=1;
     	Vector3 temp(0,0,1);
     	jetQuat.setToRotateAboutAxis(temp,degree2Radian(angle));
-    	jetCam.getRotMat((float*)&Model[0][0]);
+    	//jetCam.getRotMat((float*)&Model[0][0]);
+    	jetCam.getRotMat((float*)&quatMatrix.matData[0][0]);
 	}
 
-    modelMatrix = tranformationMatrix*(jetQuat.getMatrix());
+    //modelMatrix = tranformationMatrix*(jetQuat.getMatrix());
+    modelMatrix = setOriginMatrix*setScaleMatrix*quatMatrix*tranformationMatrix;
 
     glUseProgram(gProgram);
     checkGlError("glUseProgram");
-    //glUniformMatrix4fv(gMMatrixHandle,1,false,(const float*)(modelMatrix.matData[0]));
-    glUniformMatrix4fv(gMMatrixHandle,1,false,(const float*)(&Model[0][0]));
+    glUniformMatrix4fv(gMMatrixHandle,1,false,(const float*)(modelMatrix.matData[0]));
+    //glUniformMatrix4fv(gMMatrixHandle,1,false,(const float*)(&Model[0][0]));
     glUniformMatrix4fv(gPMatrixHandle,1,false,(const float*)(projMatrix->matData[0]));
     checkGlError("glUniformMatrix4fv");
-    glVertexAttribPointer(gvPositionHandle, 3, GL_FLOAT, GL_FALSE, 0, gTriangleVertices);
+//    glVertexAttribPointer(gvPositionHandle, 3, GL_FLOAT, GL_FALSE, 0, gTriangleVertices);
+
+    glVertexAttribPointer(gvPositionHandle, 3, GL_FLOAT, GL_FALSE, 0, bird->vertexArray);
+    glVertexAttribPointer(gvNormalHandle, 3, GL_FLOAT, GL_FALSE, 0, bird->normalArray);
+
+
+
     checkGlError("glVertexAttribPointer");
-    glVertexAttribPointer(gvColorHandle,4,GL_FLOAT,GL_FALSE, 0, colorArray);
+    glVertexAttribPointer(gvColorHandle,4,GL_FLOAT,GL_FALSE, 0, ManColorArray);
     glEnableVertexAttribArray(gvPositionHandle);
     glEnableVertexAttribArray(gvColorHandle);
+    glEnableVertexAttribArray(gvNormalHandle);
+
     checkGlError("glEnableVertexAttribArray");
 
 
-    glDrawArrays(GL_TRIANGLES, 0, 51);
+    //glDrawArrays(GL_TRIANGLES, 0, 51);
+    glDrawElements(GL_TRIANGLES,bird->nfaces*3,GL_UNSIGNED_INT,bird->indices);
     checkGlError("glDrawArrays");
 }
 
@@ -389,23 +447,7 @@ JNIEXPORT jint JNICALL Java_com_android_gl2jni_GL2JNILib_onTouchEvent(JNIEnv * e
 JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_setFilePath(JNIEnv * env, jobject obj, jstring fP)
 {
 	dataDir = (char*)(env->GetStringUTFChars(fP,NULL));
-	strcat(dataDir,"triangle.vert.txt");
+	strcat(dataDir,"m39.off.txt");
 	LOGE("FilePath: %s", dataDir);
-	FILE *f = fopen(dataDir,"r");
-	if(f==NULL){
-		LOGE("file not  found");
-		return;
-	}
-	else
-	LOGE("Done");
-
-	char * shaderData;
-	long dataSize;
-	fseek(f, 0, SEEK_END);
-	dataSize = ftell(f);
-	rewind(f);
-	shaderData = new char[dataSize+1];
-	fread(shaderData,sizeof(char),dataSize,f);
-	LOGE("%s",shaderData);
-	fclose(f);
+	bird = ReadOffFile(dataDir);
 }

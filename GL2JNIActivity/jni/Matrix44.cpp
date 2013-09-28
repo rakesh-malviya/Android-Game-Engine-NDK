@@ -77,3 +77,17 @@ void Matrix44::setAsPerspective(float fov, float near, float far, float w , floa
 	this->matData[3][2] = -1*(2*far*near)/(far-near);
 	this->matData[2][3] = -1;
 }
+
+void Matrix44::setScale(float scale)
+{
+	for(int i=0;i<4;i++)
+	{
+		for(int j=0;j<4;j++)
+			this->matData[i][j]=0;
+	}
+
+		this->matData[0][0]= scale;
+		this->matData[1][1]= scale;
+		this->matData[2][2]= scale;
+		this->matData[3][3]= 1;
+}

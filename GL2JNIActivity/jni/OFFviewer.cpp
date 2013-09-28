@@ -29,7 +29,7 @@ void calculateNormals(Mesh *m)
 
 	m->normalArray=new float[(m->nverts)*3];
 	m->vertexArray=new float[(m->nverts)*3];
-	m->indices=new unsigned int[(m->nfaces)*3];
+	m->indices=new unsigned short[(m->nfaces)*3];
 
 	for(int k=0; k < m->nverts; k++)
 	{

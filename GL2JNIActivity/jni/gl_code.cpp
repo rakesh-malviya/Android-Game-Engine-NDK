@@ -409,8 +409,8 @@ void renderFrame() {
 
 
     //glDrawArrays(GL_TRIANGLES, 0, 51);
-    glDrawElements(GL_TRIANGLES,bird->nfaces*3,GL_UNSIGNED_INT,bird->indices);
-    checkGlError("glDrawArrays");
+    glDrawElements(GL_TRIANGLES,bird->nfaces*3,GL_UNSIGNED_SHORT,bird->indices);
+    checkGlError("glDrawElements");
 }
 
 extern "C" {
@@ -450,4 +450,5 @@ JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_setFilePath(JNIEnv * en
 	strcat(dataDir,"m39.off.txt");
 	LOGE("FilePath: %s", dataDir);
 	bird = ReadOffFile(dataDir);
+
 }

@@ -34,7 +34,7 @@ typedef struct Mesh {
   Vertex *verts;
   float *normalArray;
   float *vertexArray;
-  unsigned int *indices;
+  unsigned short *indices;
   int nfaces;
   Face *faces;
 } Mesh;

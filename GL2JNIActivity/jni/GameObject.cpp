@@ -12,6 +12,7 @@ namespace gameSpace {
 
 GameObject::GameObject(char* dataFilePath) {
 	mesh = ReadOffFile(dataFilePath);
+	scale = 1.0f;
 	position.x = 0;
 	position.y = 0;
 	position.z = 0;
@@ -60,7 +61,7 @@ void GameObject::setPosition(float x, float y, float z) {
 	position.z = z;
 }
 
-void GameObject::setOrigin(float x, float y, float z) {
+void GameObject::setCentroid(float x, float y, float z) {
 	centroid.x = x;
 	centroid.y = y;
 	centroid.z = z;
@@ -82,9 +83,39 @@ Matrix44 GameObject::getQuatMatrix() {
 	return q.getMatrix();
 }
 
-
-GameObject::~GameObject() {
-	// TODO Auto-generated destructor stub
+void GameObject::setScale(float scale) {
+	this->scale=scale;
 }
 
-} /* namespace gameSpace */
+Matrix44 GameObject::getScaleMatrix() {
+	Matrix44 m;
+	m.setScale(scale);
+	return m;
+}
+
+Matrix44 GameObject::getMatrix() {
+	return(getCentroidMatrix()*getScaleMatrix()*getQuatMatrix()*getPosMatrix());
+}
+
+
+GameObject::GameObject(Mesh* m) {
+	this->mesh = m;
+	scale = 1.0f;
+	position.x = 0;
+	position.y = 0;
+	position.z = 0;
+	centroid.x = 0;
+	centroid.y = 0;
+	centroid.z = 0;
+}
+
+void GameObject::setColorArray(float* colorArray) {
+	this->colorArray = colorArray;
+}
+
+GameObject::~GameObject() {
+}
+/* namespace gameSpace */
+
+}
+

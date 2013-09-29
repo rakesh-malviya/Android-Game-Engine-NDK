@@ -17,7 +17,13 @@
 		);
  }
 
- Vector3 Vector3::getNormal(const Vector3 &a, const Vector3 &b,const Vector3 &c)
+
+
+ float Vector3::dotProduct(const Vector3& a, const Vector3& b) {
+	 return (a.x*b.x + a.y*b.y + a.z*b.z);
+}
+
+Vector3 Vector3::getNormal(const Vector3 &a, const Vector3 &b,const Vector3 &c)
  {
 	 Vector3 v=crossProduct(Vector3(b.x-a.x,b.y-a.y,b.z-a.z),Vector3(c.x-a.x,c.y-a.y,c.z-a.z));
 	 v.normalize();

@@ -17,6 +17,7 @@
 package com.android.gl2jni;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,7 @@ public class GL2JNIActivity extends Activity {
     GL2JNIView mView;
 
     @Override protected void onCreate(Bundle icicle) {
+    	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     	try {
 			writeToSDCard();
 		} catch (Exception e) {

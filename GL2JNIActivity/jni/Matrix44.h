@@ -9,6 +9,7 @@
 #define MATRIX44_H_
 
 #include <math.h>
+#include "Vector3.h"
 
 class Matrix44
 {
@@ -33,10 +34,10 @@ public:
 		return;
 	}
 
-	void setRotate(char axis,float angle);
 	void setScale(float x);
 	void setTranslate(float x, float y, float z);
 	void setAsPerspective(float fov, float near, float far, float w , float h);
+	void multiply(Vector3 *v);
 
 	Matrix44 operator*(const Matrix44 &b);
 	void operator*=(const Matrix44 &b);

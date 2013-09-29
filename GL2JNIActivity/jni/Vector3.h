@@ -24,6 +24,7 @@ public:
 	void normalize();
 
 	Vector3 crossProduct(const Vector3 &a, const Vector3 &b);
+	float dotProduct(const Vector3 &a, const Vector3 &b);
 	Vector3 getNormal(const Vector3 &a, const Vector3 &b,const Vector3 &c);
 
 };

@@ -20,8 +20,10 @@ private:
 	Quaternion q;
 	Vector3 position;
 	Vector3 centroid;
+	float scale;
 public:
 	Mesh* mesh;
+	float* colorArray;
 
 	void	setToRotateAboutX(float theta);
 	void	setToRotateAboutY(float theta);
@@ -33,13 +35,17 @@ public:
 	void	rotateAboutZ(float theta);
 	void	rotateAboutAxis(Vector3 &axis, float theta);
 	void 	setPosition(float x,float y,float z);
-	void 	setOrigin(float x,float y,float z);
+	void 	setCentroid(float x,float y,float z);
+	void 	setScale(float scale);
+	void 	setColorArray(float *colorArray);
 	Matrix44 	getPosMatrix();
 	Matrix44 	getCentroidMatrix();
+	Matrix44	getScaleMatrix();
 	Matrix44	getQuatMatrix();
+	Matrix44    getMatrix();
 
 	GameObject(char* dataFilePath);
-
+	GameObject(Mesh* m);
 	virtual ~GameObject();
 };
 

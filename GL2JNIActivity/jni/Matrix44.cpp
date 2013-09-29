@@ -21,6 +21,27 @@ Matrix44 Matrix44::operator *(const Matrix44 &b){
 	return r;
 }
 
+void Matrix44::multiply(Vector3 *v) {
+	float array[3];
+	float vectorArray[4];
+	vectorArray[0]=v->x;
+	vectorArray[1]=v->y;
+	vectorArray[2]=v->z;
+	vectorArray[3]=1;
+	for(int i=0;i<3;i++)
+	{
+		array[i]=0;
+		for(int j=0;j<4;j++)
+		{
+			array[i]+=this->matData[i][j]*vectorArray[j];
+		}
+	}
+
+	v->x = array[0];
+	v->y = array[1];
+	v->z = array[2];
+}
+
 void Matrix44::operator *=(const Matrix44 &b){
 	Matrix44 r;
 		for(int i=0;i<4;i++){

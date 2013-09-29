@@ -53,7 +53,7 @@ obj/local/armeabi/objs/gl2jni/gl_code.o: jni/gl_code.cpp \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/math.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/assert.h \
  jni/Vector3.h jni/Matrix44.h jni/QuaternionCamera.h jni/Quaternion.h \
- jni/trackball.h jni/OFFviewer.h
+ jni/trackball.h jni/GameObject.h jni/OFFviewer.h jni/Shader.h
 
 C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/unistd.h:
 
@@ -171,4 +171,8 @@ jni/Quaternion.h:
 
 jni/trackball.h:
 
+jni/GameObject.h:
+
 jni/OFFviewer.h:
+
+jni/Shader.h:

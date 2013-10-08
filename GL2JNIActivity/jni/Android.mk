@@ -19,6 +19,6 @@ include $(CLEAR_VARS)
 LOCAL_MODULE    := libgl2jni
 LOCAL_CFLAGS    := -Werror
 LOCAL_SRC_FILES += Vector3.cpp Quaternion.cpp Matrix44.cpp trackball.cpp OFFviewer.cpp
-LOCAL_SRC_FILES += QuaternionCamera.cpp GameObject.cpp Shader.cpp gl_code.cpp  
+LOCAL_SRC_FILES += QuaternionCamera.cpp GameObject.cpp Shader.cpp gl_code.cpp LineBoxIntersection.cpp RayBoxIntersection.cpp Ray.cpp
 LOCAL_LDLIBS    := -llog -lGLESv2
 include $(BUILD_SHARED_LIBRARY)

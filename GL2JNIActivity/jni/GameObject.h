@@ -43,6 +43,11 @@ public:
 	Matrix44	getScaleMatrix();
 	Matrix44	getQuatMatrix();
 	Matrix44    getMatrix();
+	Matrix44    getInversePosMatrix();
+	Matrix44    getInverseScaleMatrix();
+	Matrix44 	getInverseCentroidMatrix();
+	Matrix44	getInverseQuatMatrix();
+	bool collision(Vector3 p1, Vector3 p2);
 
 	GameObject(char* dataFilePath);
 	GameObject(Mesh* m);

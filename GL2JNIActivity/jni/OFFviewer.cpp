@@ -181,6 +181,19 @@ Mesh * ReadOffFile(const char *filename)
         fclose(fp);
         return NULL;
       }
+
+      if(vert.x > mesh->maxX)
+    	  mesh->maxX = vert.x;
+      if(vert.x < mesh->minX)
+    	  mesh->minX = vert.x;
+      if(vert.y > mesh->maxY)
+    	  mesh->maxY = vert.y;
+      if(vert.y < mesh->minY)
+    	  mesh->minY = vert.y;
+      if(vert.z > mesh->maxZ)
+    	  mesh->maxZ = vert.z;
+      if(vert.z < mesh->minZ)
+    	  mesh->minZ = vert.z;
     }
     else if (mesh->nfaces < nfaces) {
       // Get next face

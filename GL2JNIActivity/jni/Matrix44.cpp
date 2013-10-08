@@ -33,7 +33,7 @@ void Matrix44::multiply(Vector3 *v) {
 		array[i]=0;
 		for(int j=0;j<4;j++)
 		{
-			array[i]+=this->matData[i][j]*vectorArray[j];
+			array[i]+=this->matData[j][i]*vectorArray[j];
 		}
 	}
 

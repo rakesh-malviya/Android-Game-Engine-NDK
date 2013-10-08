@@ -102,7 +102,9 @@ char* dataDir;
 float* ManColorArray;
 gameSpace::GameObject *man;
 gameSpace::GameObject *man1;
-Vector3* camEye;
+
+Vector3* camEye1;
+Vector3* camEye2;
 Shader* gameShader;
 
 static GLfloat xMousePos,yMousePos;
@@ -152,7 +154,8 @@ bool onTouchEvent(int eventId, int x, int y)
 
 bool setup()
 {
-	camEye = new Vector3(0,0,0);
+	camEye1 = new Vector3(0,0,0);
+	camEye2 = new Vector3(0,0,0);
 	touchStarted = false;
 	gameShader = new Shader(dataDir);
 	unsigned int pathLength = strlen(dataDir);
@@ -161,7 +164,7 @@ bool setup()
 	strcpy(manFile,dataDir);
 	strcat(manFile,"m39.off.txt");
 	float xPos = 0;
-	float zPos = -450.0;
+	float zPos = -100.0;
 	man = new gameSpace::GameObject(manFile);
 	man->setCentroid(0.154467,0.4f,0.083040);
 	man->setPosition(xPos,0,zPos);
@@ -169,7 +172,7 @@ bool setup()
 
 	man1 = new gameSpace::GameObject(man->mesh);
 	man1->setCentroid(0.154467,0.4f,0.083040);
-	man1->setPosition(zPos*sinf(1.57075),0,zPos*cosf(1.57075));
+	man1->setPosition(zPos*sinf(M_PI/2.0),0,zPos*cosf(M_PI/2.0));
 	man1->setScale(50);
 	//Seting color
 
@@ -203,7 +206,7 @@ bool setupGraphics(int w, int h) {
 
 	windowHeight = h;
 	windowWidth = w;
-	projMatrix.setAsPerspective(60,1.0,600,w,h);
+	projMatrix.setAsPerspective(75,1.0,600,w,h);
 	printGLString("Version", GL_VERSION);
     printGLString("Vendor", GL_VENDOR);
     printGLString("Renderer", GL_RENDERER);
@@ -235,10 +238,7 @@ void renderFrame() {
     if(touchStarted)
 	{
     	jetCam.getRotMat((float*)&camQuatMatrix.matData[0][0]);
-    	man->rotateAboutX(0.02);
-    	man1->rotateAboutX(0.02);
-
-	}
+   	}
 
 	modelMatrix = man->getMatrix()*camQuatMatrix;
 
@@ -248,12 +248,50 @@ void renderFrame() {
 
 	gameShader->drawTriShader(man1,modelMatrix,projMatrix);
 
-	camEye->x = 0;
-	camEye->y = 0;
-	camEye->z = -1;
 
-	//modelMatrix.setIdentity();
-	//gameShader->drawLineShader(man,modelMatrix,projMatrix);
+	camEye1->x = 0;
+	camEye1->y = 0;
+	camEye1->z = -50;
+	camEye2->x = 0;
+	camEye2->y = 0;
+	camEye2->z = -290;
+
+	Quaternion inverseCam(jetCam.q[3],-jetCam.q[0],-jetCam.q[1],-jetCam.q[2]);
+	inverseCam.getMatrix().multiply(camEye1);
+	inverseCam.getMatrix().multiply(camEye2);
+	//camQuatMatrix.multiply(camEye);
+	glLineWidth(2);
+
+	//detect collision
+	Vector3 crosshairColor(0,0,1);
+	if(man->collision(*camEye1,*camEye2))
+	{
+		LOGE("man Collision");
+		crosshairColor.x = 1;
+		crosshairColor.y = 0;
+		crosshairColor.z = 0;
+	}
+
+
+
+	if(man1->collision(*camEye1,*camEye2))
+	{
+		LOGE("man1 Collision");
+		crosshairColor.x = 1;
+		crosshairColor.y = 0;
+		crosshairColor.z = 0;
+	}
+
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	modelMatrix=camQuatMatrix;//.setIdentity();
+	gameShader->drawLineShader(man,crosshairColor,modelMatrix,projMatrix,camEye1,camEye2);
+	glDisable(GL_BLEND);
+
+
+
+
 }
 
 extern "C" {

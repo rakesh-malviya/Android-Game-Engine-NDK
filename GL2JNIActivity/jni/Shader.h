@@ -56,6 +56,6 @@ public:
 	 bool glCreateTriProgram();
 	 bool glCreateLineProgram();
 	 void drawTriShader(gameSpace::GameObject* obj,Matrix44 &modelMatrix,Matrix44 &projMatrix);
-	 void drawLineShader(gameSpace::GameObject* obj,Matrix44 &modelMatrix,Matrix44 &projMatrix);
+	 void drawLineShader(gameSpace::GameObject* obj,Vector3 color,Matrix44 &modelMatrix,Matrix44 &projMatrix,Vector3 *l1,Vector3 *l2);
 };
 #endif /* SHADER_H_ */

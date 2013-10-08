@@ -264,17 +264,18 @@ Shader::~Shader() {
 	free(gFragmentShader);
 }
 
-void Shader::drawLineShader(gameSpace::GameObject* obj,Matrix44 &modelMatrix,Matrix44 &projMatrix)
+void Shader::drawLineShader(gameSpace::GameObject* obj,Vector3 color,Matrix44 &modelMatrix,Matrix44 &projMatrix,Vector3 *l1,Vector3 *l2)
 {
 	float vertexArray[6];
 	//vertexArray[0]=-v->x;vertexArray[1]=-v->y;vertexArray[2]=v->z;
-	vertexArray[0]=0;vertexArray[1]=0;vertexArray[2]=-100;
+	//vertexArray[0]=l1->x*0.1;vertexArray[1]=0;vertexArray[2]=l1->z*0.1;
+	vertexArray[0]=l2->x;vertexArray[1]=l2->y-2;vertexArray[2]=l2->z;
 	//vertexArray[3]=100;vertexArray[4]=0;vertexArray[5]=-150;
-	vertexArray[3]=0;vertexArray[4]=30;vertexArray[5]=-100;
+	vertexArray[3]=l1->x;vertexArray[4]=l1->y-2;vertexArray[5]=l1->z;
 	//vertexArray[3]=v->x*100;vertexArray[4]=v->y*100*1.2;vertexArray[5]=v->z*100;
 	glUseProgram(gLineProgram);
     checkGlError("glUseProgram");
-    glUniform4f(gLineColorHandle,1,0,0,1);
+    glUniform4f(gLineColorHandle,color.x,color.y,color.z,1);
     glUniformMatrix4fv(gMLineMatrixHandle,1,false,(const float*)(modelMatrix.matData[0]));
     //glUniformMatrix4fv(gMMatrixHandle,1,false,(const float*)(&Model[0][0]));
     glUniformMatrix4fv(gPLineMatrixHandle,1,false,(const float*)(projMatrix.matData[0]));
@@ -285,7 +286,6 @@ void Shader::drawLineShader(gameSpace::GameObject* obj,Matrix44 &modelMatrix,Mat
     checkGlError("glVertexAttribPointer");
     glEnableVertexAttribArray(gvLinePositionHandle);
     checkGlError("glEnableVertexAttribArray");
-
 
     glDrawArrays(GL_LINES, 0, 2);
     //glDrawElements(GL_TRIANGLES,man->mesh->nfaces*3,GL_UNSIGNED_SHORT,obj->mesh->indices);

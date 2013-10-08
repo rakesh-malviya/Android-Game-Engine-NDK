@@ -1,4 +1,5 @@
-obj/local/armeabi/objs/gl2jni/Vector3.o: jni/Vector3.cpp jni/Vector3.h \
+obj/local/armeabi/objs/gl2jni/RayBoxIntersection.o: \
+ jni/RayBoxIntersection.cpp jni/RayBoxIntersection.h jni/Vector3.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/math.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/sys/cdefs.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -22,21 +23,9 @@ obj/local/armeabi/objs/gl2jni/Vector3.o: jni/Vector3.cpp jni/Vector3.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/machine/limits.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/sys/syslimits.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/asm/page.h \
- jni/Shader.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/GLES2/gl2.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/GLES2/gl2platform.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/KHR/khrplatform.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/GLES2/gl2ext.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/stdio.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/android/log.h \
- jni/GameObject.h jni/Quaternion.h jni/Matrix44.h jni/OFFviewer.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/stdlib.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/string.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/malloc.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/alloca.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/strings.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/memory.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/assert.h
+ jni/Ray.h
+
+jni/RayBoxIntersection.h:
 
 jni/Vector3.h:
 
@@ -86,38 +75,4 @@ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-
 
 C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/asm/page.h:
 
-jni/Shader.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/GLES2/gl2.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/GLES2/gl2platform.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/KHR/khrplatform.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/GLES2/gl2ext.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/stdio.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/android/log.h:
-
-jni/GameObject.h:
-
-jni/Quaternion.h:
-
-jni/Matrix44.h:
-
-jni/OFFviewer.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/stdlib.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/string.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/malloc.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/alloca.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/strings.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/memory.h:
-
-C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/assert.h:
+jni/Ray.h:

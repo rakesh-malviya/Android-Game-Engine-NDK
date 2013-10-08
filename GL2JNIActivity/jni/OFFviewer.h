@@ -29,7 +29,7 @@ typedef struct Face {
 } Face;
 
 typedef struct Mesh {
-  Mesh(void) : nverts(0), verts(0), nfaces(0), faces(0) {};
+  Mesh(void) : nverts(0), verts(0), nfaces(0), faces(0) { maxX = maxY = maxZ = -FLT_MAX; minX = minY = minZ = FLT_MAX; };
   int nverts;
   Vertex *verts;
   float *normalArray;
@@ -37,6 +37,8 @@ typedef struct Mesh {
   unsigned short *indices;
   int nfaces;
   Face *faces;
+  float maxX, maxY, maxZ;
+  float minX, minY, minZ;
 } Mesh;
 
 bool isFloatEqual(float x,float y);

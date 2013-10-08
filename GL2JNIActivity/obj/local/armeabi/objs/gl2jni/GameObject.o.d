@@ -31,7 +31,14 @@ obj/local/armeabi/objs/gl2jni/GameObject.o: jni/GameObject.cpp \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/alloca.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/strings.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/memory.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/assert.h
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/assert.h \
+ jni/RayBoxIntersection.h jni/Ray.h jni/LineBoxIntersection.h \
+ jni/Shader.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/GLES2/gl2.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/GLES2/gl2platform.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/KHR/khrplatform.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/GLES2/gl2ext.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/android/log.h
 
 jni/GameObject.h:
 
@@ -104,3 +111,21 @@ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-
 C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/memory.h:
 
 C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/assert.h:
+
+jni/RayBoxIntersection.h:
+
+jni/Ray.h:
+
+jni/LineBoxIntersection.h:
+
+jni/Shader.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/GLES2/gl2.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/GLES2/gl2platform.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/KHR/khrplatform.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/GLES2/gl2ext.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/android/log.h:

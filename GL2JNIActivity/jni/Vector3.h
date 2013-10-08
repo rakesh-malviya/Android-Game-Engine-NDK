@@ -22,10 +22,24 @@ public:
 	};
 
 	void normalize();
+	float length();
+	Vector3 operator-();
+	Vector3 operator/(float s);
+	float operator*(const Vector3 &b);
+	Vector3 operator^(const Vector3 &b);
+	bool operator==(const Vector3 &b);
+	bool operator!=(const Vector3 &b);
+	bool operator<(const Vector3 &b);
+	bool operator<=(const Vector3 &b);
+	Vector3 operator-(const Vector3 &b);
+	Vector3 operator+(const Vector3 &b);
+	Vector3 operator*(const float &b);
+	void operator*=(const float &b);
 
 	Vector3 crossProduct(const Vector3 &a, const Vector3 &b);
 	float dotProduct(const Vector3 &a, const Vector3 &b);
 	Vector3 getNormal(const Vector3 &a, const Vector3 &b,const Vector3 &c);
+	void print();
 
 };
 

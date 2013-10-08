@@ -6,6 +6,9 @@
  */
 
 #include "GameObject.h"
+#include "RayBoxIntersection.h"
+#include "LineBoxIntersection.h"
+#include "Shader.h"
 
 namespace gameSpace {
 
@@ -111,6 +114,67 @@ GameObject::GameObject(Mesh* m) {
 
 void GameObject::setColorArray(float* colorArray) {
 	this->colorArray = colorArray;
+}
+
+
+
+bool GameObject::collision(Vector3 p1, Vector3 p2) {
+	float t0 = -1000;
+	float t1 = 1000;
+//	Vector3 * b1 = new Vector3(1,1,1);
+//	Vector3*  b2 = new Vector3(-1,-1,-1);
+
+	Vector3*  b1 = new Vector3(mesh->maxX,mesh->maxY,mesh->maxZ);
+	Vector3*  b2 = new Vector3(mesh->minX,mesh->minY,mesh->minZ);
+	Matrix44 mult = getCentroidMatrix()*getScaleMatrix();//*getPosMatrix();
+	mult.multiply(b1);
+	mult.multiply(b2);
+
+//	position.print();
+//	l1->print();
+//	l2->print();
+
+	Matrix44 vmult = getInversePosMatrix()*getInverseQuatMatrix();//*getPosMatrix();
+	vmult.multiply(&p1);
+	vmult.multiply(&p2);
+
+//	l1->print();
+//	l2->print();
+//	Vector3 o(l1->x,l1->y,l1->z);
+//	Vector3 d(l2->x - l1->x, l2->y - l1->y, l2->z - l1->z);
+//	d.normalize();
+//	Ray r(o,d);
+//
+//	if(RayBoxIntersection::intersect(*b2,*b1,r,t0,t1))
+	Vector3 hit;
+	if(LineBoxIntersection::CheckLineBox(*b2,*b1,p1,p2,hit))
+		return true;
+	else
+		return false;
+}
+
+Matrix44 GameObject::getInverseQuatMatrix() {
+	Quaternion inverseq(q.w,-q.x,-q.y,-q.z);
+	return inverseq.getMatrix();
+}
+
+Matrix44 GameObject::getInversePosMatrix() {
+	Matrix44 m;
+	m.setTranslate(-position.x,-position.y,-position.z);
+	return m;
+}
+
+Matrix44 GameObject::getInverseCentroidMatrix() {
+	Matrix44 m;
+	m.setTranslate(centroid.x,centroid.y,centroid.z);
+	return m;
+}
+
+Matrix44 GameObject::getInverseScaleMatrix() {
+	Matrix44 m;
+	if(scale!=0)
+	m.setScale(1.0/scale);
+	return m;
 }
 
 GameObject::~GameObject() {

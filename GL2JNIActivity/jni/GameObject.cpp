@@ -22,6 +22,8 @@ GameObject::GameObject(char* dataFilePath) {
 	centroid.x = 0;
 	centroid.y = 0;
 	centroid.z = 0;
+	onCrossHair = false;
+
 }
 
 
@@ -118,11 +120,9 @@ void GameObject::setColorArray(float* colorArray) {
 
 
 
-bool GameObject::collision(Vector3 p1, Vector3 p2) {
-	float t0 = -1000;
-	float t1 = 1000;
-//	Vector3 * b1 = new Vector3(1,1,1);
-//	Vector3*  b2 = new Vector3(-1,-1,-1);
+bool GameObject::collision(Vector3 p2) {
+
+	Vector3 p1(0,0,0);
 
 	Vector3*  b1 = new Vector3(mesh->maxX,mesh->maxY,mesh->maxZ);
 	Vector3*  b2 = new Vector3(mesh->minX,mesh->minY,mesh->minZ);
@@ -130,22 +130,10 @@ bool GameObject::collision(Vector3 p1, Vector3 p2) {
 	mult.multiply(b1);
 	mult.multiply(b2);
 
-//	position.print();
-//	l1->print();
-//	l2->print();
-
 	Matrix44 vmult = getInversePosMatrix()*getInverseQuatMatrix();//*getPosMatrix();
 	vmult.multiply(&p1);
 	vmult.multiply(&p2);
 
-//	l1->print();
-//	l2->print();
-//	Vector3 o(l1->x,l1->y,l1->z);
-//	Vector3 d(l2->x - l1->x, l2->y - l1->y, l2->z - l1->z);
-//	d.normalize();
-//	Ray r(o,d);
-//
-//	if(RayBoxIntersection::intersect(*b2,*b1,r,t0,t1))
 	Vector3 hit;
 	if(LineBoxIntersection::CheckLineBox(*b2,*b1,p1,p2,hit))
 		return true;

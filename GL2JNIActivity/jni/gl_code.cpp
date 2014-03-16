@@ -33,6 +33,12 @@
 #include "GameObject.h"
 #include "Shader.h"
 
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
+
+#define FAR 600
+
+
 
 static void printGLString(const char *name, GLenum s) {
     const char *v = (const char *) glGetString(s);
@@ -98,17 +104,39 @@ Matrix44 projMatrix;
 Matrix44 modelMatrix;
 Matrix44 camQuatMatrix;
 QuaternionCamera jetCam;
+AAssetManager* assetMgr;
 char* dataDir;
 float* ManColorArray;
-gameSpace::GameObject *man;
-gameSpace::GameObject *man1;
+const unsigned int noOfEnemies = 3;
+gameSpace::GameObject *man[3];
+float xPos = 0;
+float zPos = -100.0;
 
 Vector3* camEye1;
-Vector3* camEye2;
+Vector3* camEye;
 Shader* gameShader;
 
 static GLfloat xMousePos,yMousePos;
 static GLuint windowWidth,windowHeight;
+
+double randDouble(double x)
+{
+    return x*((double)rand() / (double)RAND_MAX) ;
+}
+
+void longPressEvent()
+{
+	for(int i=0;i<noOfEnemies;i++)
+	{
+		if(man[i]->onCrossHair)
+		{
+			double thetaRandom = randDouble(M_PI*2);
+			man[i]->setPosition(zPos*sinf(thetaRandom),0,zPos*cosf(thetaRandom));
+		}
+	}
+
+
+}
 
 float degree2Radian(float deg)
 {
@@ -155,29 +183,31 @@ bool onTouchEvent(int eventId, int x, int y)
 bool setup()
 {
 	camEye1 = new Vector3(0,0,0);
-	camEye2 = new Vector3(0,0,0);
+	camEye = new Vector3(0,0,0);
 	touchStarted = false;
-	gameShader = new Shader(dataDir);
+	gameShader = new Shader(assetMgr);
 	unsigned int pathLength = strlen(dataDir);
 	char* manFile = new char[pathLength + 30];
 	memset(manFile,0,pathLength + 30);
 	strcpy(manFile,dataDir);
 	strcat(manFile,"m39.off.txt");
-	float xPos = 0;
-	float zPos = -100.0;
-	man = new gameSpace::GameObject(manFile);
-	man->setCentroid(0.154467,0.4f,0.083040);
-	man->setPosition(xPos,0,zPos);
-	man->setScale(50);
+	man[0] = new gameSpace::GameObject(manFile);
+	man[0]->setCentroid(0.154467,0.4f,0.083040);
+	man[0]->setScale(50);
+	man[0]->setPosition(xPos,0,zPos);
 
-	man1 = new gameSpace::GameObject(man->mesh);
-	man1->setCentroid(0.154467,0.4f,0.083040);
-	man1->setPosition(zPos*sinf(M_PI/2.0),0,zPos*cosf(M_PI/2.0));
-	man1->setScale(50);
+	for(int i=1;i<noOfEnemies;i++)
+	{
+		man[i] = new gameSpace::GameObject(man[0]->mesh);
+		man[i]->setCentroid(0.154467,0.4f,0.083040);
+		man[i]->setScale(50);
+		double thetaRandom = randDouble(M_PI*2);
+		man[i]->setPosition(zPos*sinf(thetaRandom),0,zPos*cosf(thetaRandom));
+	}
 	//Seting color
 
-	ManColorArray  = new float[(man->mesh->nverts)*4];
-	for(int i=0;i<man->mesh->nverts;i++)
+	ManColorArray  = new float[(man[0]->mesh->nverts)*4];
+	for(int i=0;i<man[0]->mesh->nverts;i++)
 	{
 		ManColorArray[i*4+0] = (float)(rand()%25)/100.0;
 		ManColorArray[i*4+1] = (float)(rand()%50)/100.0 + 0.5;
@@ -185,9 +215,11 @@ bool setup()
 		ManColorArray[i*4+3] = 1.0;
 	}
 
-	man->setColorArray(ManColorArray);
-	man1->setColorArray(ManColorArray);
 
+	for(int i=0;i<noOfEnemies;i++)
+	{
+		man[i]->setColorArray(ManColorArray);
+	}
 
 	glEnable(GL_DEPTH_TEST);	// Hidden surface removal
 	glFrontFace(GL_CCW);		// Counter clock-wise polygons face out
@@ -206,7 +238,7 @@ bool setupGraphics(int w, int h) {
 
 	windowHeight = h;
 	windowWidth = w;
-	projMatrix.setAsPerspective(75,1.0,600,w,h);
+	projMatrix.setAsPerspective(75,1.0,FAR,w,h);
 	printGLString("Version", GL_VERSION);
     printGLString("Vendor", GL_VENDOR);
     printGLString("Renderer", GL_RENDERER);
@@ -240,53 +272,74 @@ void renderFrame() {
     	jetCam.getRotMat((float*)&camQuatMatrix.matData[0][0]);
    	}
 
-	modelMatrix = man->getMatrix()*camQuatMatrix;
+    for(int i=0;i<noOfEnemies;i++)
+	{
+    	modelMatrix = man[i]->getMatrix()*camQuatMatrix;
 
-	gameShader->drawTriShader(man,modelMatrix,projMatrix);
+		gameShader->drawTriShader(man[i],modelMatrix,projMatrix);
 
-	modelMatrix = man1->getMatrix()*camQuatMatrix;
+	}
 
-	gameShader->drawTriShader(man1,modelMatrix,projMatrix);
+//	modelMatrix = man->getMatrix()*camQuatMatrix;
+//
+//	gameShader->drawTriShader(man,modelMatrix,projMatrix);
+//
+//	modelMatrix = man1->getMatrix()*camQuatMatrix;
+//
+//	gameShader->drawTriShader(man1,modelMatrix,projMatrix);
 
 
 	camEye1->x = 0;
 	camEye1->y = 0;
-	camEye1->z = -50;
-	camEye2->x = 0;
-	camEye2->y = 0;
-	camEye2->z = -290;
+	camEye1->z = 0;
+	camEye->x = 0;
+	camEye->y = 0;
+	camEye->z = -FAR;
 
 	Quaternion inverseCam(jetCam.q[3],-jetCam.q[0],-jetCam.q[1],-jetCam.q[2]);
 	inverseCam.getMatrix().multiply(camEye1);
-	inverseCam.getMatrix().multiply(camEye2);
+	inverseCam.getMatrix().multiply(camEye);
 	//camQuatMatrix.multiply(camEye);
 	glLineWidth(2);
 
 	//detect collision
 	Vector3 crosshairColor(0,0,1);
-	if(man->collision(*camEye1,*camEye2))
+
+	for(int i=0;i<noOfEnemies;i++)
 	{
-		LOGE("man Collision");
-		crosshairColor.x = 1;
-		crosshairColor.y = 0;
-		crosshairColor.z = 0;
+		if(man[i]->collision(*camEye))
+		{
+			LOGE("man Collision");
+			crosshairColor.x = 1;
+			crosshairColor.y = 0;
+			crosshairColor.z = 0;
+			man[i]->onCrossHair = true;
+		}
+		else{
+			man[i]->onCrossHair = false;
+		}
 	}
 
 
 
-	if(man1->collision(*camEye1,*camEye2))
-	{
-		LOGE("man1 Collision");
-		crosshairColor.x = 1;
-		crosshairColor.y = 0;
-		crosshairColor.z = 0;
-	}
+
+//	if(man1->collision(*camEye))
+//	{
+//		LOGE("man1 Collision");
+//		crosshairColor.x = 1;
+//		crosshairColor.y = 0;
+//		crosshairColor.z = 0;
+//		man1->onCrossHair = true;
+//	}
+//	else{
+//		man1->onCrossHair = false;
+//	}
 
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	modelMatrix=camQuatMatrix;//.setIdentity();
-	gameShader->drawLineShader(man,crosshairColor,modelMatrix,projMatrix,camEye1,camEye2);
+	gameShader->drawLineShader(man[0],crosshairColor,modelMatrix,projMatrix,camEye);
 	glDisable(GL_BLEND);
 
 
@@ -297,9 +350,11 @@ void renderFrame() {
 extern "C" {
     JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_onSurfaceChanged(JNIEnv * env, jobject obj, jint width, jint height);
     JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_onDrawFrame(JNIEnv * env, jobject obj);
+    JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_onLongPress(JNIEnv * env, jobject obj);
     JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_onSurfaceCreated(JNIEnv * env, jobject obj);
     JNIEXPORT jint JNICALL Java_com_android_gl2jni_GL2JNILib_onTouchEvent(JNIEnv * env, jobject obj, jint eventId, jfloat x, jfloat y);
     JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_setFilePath(JNIEnv * env, jobject obj, jstring filePath);
+    JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_createAssets(JNIEnv * env, jobject obj, jobject assetManager);
 };
 
 
@@ -312,6 +367,11 @@ JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_onSurfaceChanged(JNIEnv
 JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_onDrawFrame(JNIEnv * env, jobject obj)
 {
     renderFrame();
+}
+
+JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_onLongPress(JNIEnv * env, jobject obj)
+{
+    longPressEvent();
 }
 
 JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_onSurfaceCreated(JNIEnv * env, jobject obj)
@@ -329,5 +389,12 @@ JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_setFilePath(JNIEnv * en
 {
 	dataDir = (char*)(env->GetStringUTFChars(fP,NULL));
 	LOGE("FilePath: %s", dataDir);
+
+}
+
+JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_createAssets(JNIEnv * env, jobject obj, jobject assetManager)
+{
+	assetMgr = AAssetManager_fromJava(env, assetManager);
+	assert(NULL != assetMgr);
 
 }

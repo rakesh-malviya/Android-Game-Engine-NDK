@@ -11,6 +11,8 @@
 #include "Quaternion.h"
 #include "OFFviewer.h"
 #include "Matrix44.h"
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
 
 namespace gameSpace {
 
@@ -22,6 +24,7 @@ private:
 	Vector3 centroid;
 	float scale;
 public:
+	bool onCrossHair;
 	Mesh* mesh;
 	float* colorArray;
 
@@ -47,7 +50,7 @@ public:
 	Matrix44    getInverseScaleMatrix();
 	Matrix44 	getInverseCentroidMatrix();
 	Matrix44	getInverseQuatMatrix();
-	bool collision(Vector3 p1, Vector3 p2);
+	bool collision(Vector3 p2);
 
 	GameObject(char* dataFilePath);
 	GameObject(Mesh* m);

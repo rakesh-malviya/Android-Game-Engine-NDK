@@ -36,7 +36,10 @@ obj/local/armeabi/objs/gl2jni/Vector3.o: jni/Vector3.cpp jni/Vector3.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/alloca.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/strings.h \
  C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/memory.h \
- C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/assert.h
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/assert.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/android/asset_manager.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/android/asset_manager_jni.h \
+ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/jni.h
 
 jni/Vector3.h:
 
@@ -121,3 +124,9 @@ C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-
 C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/memory.h:
 
 C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/assert.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/android/asset_manager.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/android/asset_manager_jni.h:
+
+C:/Personel/adt-bundle-windows-x86_64-20130729/android-ndk-r9/platforms/android-9/arch-arm/usr/include/jni.h:

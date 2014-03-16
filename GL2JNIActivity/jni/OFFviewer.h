@@ -45,8 +45,6 @@ bool isFloatEqual(float x,float y);
 
 bool isVertexEqual(Vertex *v1,Vertex *v2);
 void calculateNormals(Mesh *m);
-Mesh *
-ReadOffFile(const char *filename);
-
+Mesh * ReadOffFile(const char *filename);
 
 #endif /* OFFVIEWER_H_ */

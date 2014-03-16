@@ -35,4 +35,6 @@ public class GL2JNILib {
      public static native void onSurfaceCreated();
      public static native int onTouchEvent(int eventId,float x, float y);
      public static native void setFilePath(String filePath);
+     public static native void createAssets(AssetManager assetManager);
+     public static native void onLongPress();
 }

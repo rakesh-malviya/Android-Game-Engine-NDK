@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <android/log.h>
 #include "GameObject.h"
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
 
 #define  LOG_TAG    "libgl2jni"
 #define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
@@ -37,7 +39,7 @@ public:
 	 GLuint gPMatrixHandle;
 	 GLuint gMMatrixHandle;
 
-	Shader(char* dataDir);
+	Shader(AAssetManager* assetMgr);
 	~Shader();
 
 	 char* gVertexShader;
@@ -56,6 +58,6 @@ public:
 	 bool glCreateTriProgram();
 	 bool glCreateLineProgram();
 	 void drawTriShader(gameSpace::GameObject* obj,Matrix44 &modelMatrix,Matrix44 &projMatrix);
-	 void drawLineShader(gameSpace::GameObject* obj,Vector3 color,Matrix44 &modelMatrix,Matrix44 &projMatrix,Vector3 *l1,Vector3 *l2);
+	 void drawLineShader(gameSpace::GameObject* obj,Vector3 color,Matrix44 &modelMatrix,Matrix44 &projMatrix,Vector3 *l1);
 };
 #endif /* SHADER_H_ */

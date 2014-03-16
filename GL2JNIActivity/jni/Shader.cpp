@@ -7,7 +7,6 @@
 
 #include "Shader.h"
 
-
 void Shader::checkGlError(const char* op) {
     for (GLint error = glGetError(); error; error
             = glGetError()) {
@@ -166,7 +165,42 @@ void Shader::drawTriShader(gameSpace::GameObject* obj,Matrix44 &modelMatrix,Matr
 
 
 
-Shader::Shader(char* dataDir) {
+Shader::Shader(AAssetManager* assetMgr){
+	AAsset* asset;
+	long sizeAsset;
+	asset = AAssetManager_open(assetMgr, "Shaders/triangle.vert", AASSET_MODE_STREAMING);
+	sizeAsset = AAsset_getLength(asset);
+	gVertexShader = (char*) malloc (sizeof(char)*sizeAsset + 1);
+	AAsset_read (asset,gVertexShader,sizeAsset);
+	gVertexShader[sizeAsset] = 0;
+	AAsset_close(asset);
+
+	asset = AAssetManager_open(assetMgr, "Shaders/triangle.frag", AASSET_MODE_STREAMING);
+	sizeAsset = AAsset_getLength(asset);
+	gFragmentShader = (char*) malloc (sizeof(char)*sizeAsset + 1);
+	AAsset_read (asset,gFragmentShader,sizeAsset);
+	gFragmentShader[sizeAsset] = 0;
+	AAsset_close(asset);
+
+	asset = AAssetManager_open(assetMgr, "Shaders/line.vert", AASSET_MODE_STREAMING);
+	sizeAsset = AAsset_getLength(asset);
+	gLineVertexShader = (char*) malloc (sizeof(char)*sizeAsset + 1);
+	AAsset_read (asset,gLineVertexShader,sizeAsset);
+	gLineVertexShader[sizeAsset] = 0;
+	LOGE("%s\n",gLineVertexShader);
+	AAsset_close(asset);
+
+	asset = AAssetManager_open(assetMgr, "Shaders/line.frag", AASSET_MODE_STREAMING);
+	sizeAsset = AAsset_getLength(asset);
+	gFragmentLineShader = (char*) malloc (sizeof(char)*sizeAsset + 1);
+	AAsset_read (asset,gFragmentLineShader,sizeAsset);
+	gFragmentLineShader[sizeAsset] = 0;
+	LOGE("%s\n",gFragmentLineShader);
+	AAsset_close(asset);
+}
+
+/*
+ Shader::Shader(char* dataDir) {
 	unsigned int pathlength = strlen(dataDir);
 	char* tempFilePath = new char[pathlength + 20];
 	memset(tempFilePath,0,pathlength+20);
@@ -256,7 +290,7 @@ Shader::Shader(char* dataDir) {
 
 	free(tempFilePath);
 }
-
+ */
 Shader::~Shader() {
 	free(gVertexShader);
 	free(gFragmentLineShader);
@@ -264,28 +298,24 @@ Shader::~Shader() {
 	free(gFragmentShader);
 }
 
-void Shader::drawLineShader(gameSpace::GameObject* obj,Vector3 color,Matrix44 &modelMatrix,Matrix44 &projMatrix,Vector3 *l1,Vector3 *l2)
+void Shader::drawLineShader(gameSpace::GameObject* obj,Vector3 color,Matrix44 &modelMatrix,Matrix44 &projMatrix,Vector3 *l1)
 {
 	float vertexArray[6];
-	//vertexArray[0]=-v->x;vertexArray[1]=-v->y;vertexArray[2]=v->z;
-	//vertexArray[0]=l1->x*0.1;vertexArray[1]=0;vertexArray[2]=l1->z*0.1;
-	vertexArray[0]=l2->x;vertexArray[1]=l2->y-2;vertexArray[2]=l2->z;
-	//vertexArray[3]=100;vertexArray[4]=0;vertexArray[5]=-150;
-	vertexArray[3]=l1->x;vertexArray[4]=l1->y-2;vertexArray[5]=l1->z;
-	//vertexArray[3]=v->x*100;vertexArray[4]=v->y*100*1.2;vertexArray[5]=v->z*100;
+	vertexArray[0]=l1->x/3;vertexArray[1]=l1->y/3+2;vertexArray[2]=l1->z/3;
+	vertexArray[3]=l1->x/3;vertexArray[4]=l1->y/3-2;vertexArray[5]=l1->z/3;
 	glUseProgram(gLineProgram);
     checkGlError("glUseProgram");
     glUniform4f(gLineColorHandle,color.x,color.y,color.z,1);
     glUniformMatrix4fv(gMLineMatrixHandle,1,false,(const float*)(modelMatrix.matData[0]));
     //glUniformMatrix4fv(gMMatrixHandle,1,false,(const float*)(&Model[0][0]));
     glUniformMatrix4fv(gPLineMatrixHandle,1,false,(const float*)(projMatrix.matData[0]));
-    checkGlError("glUniformMatrix4fv");
+    checkGlError("glUniformMatrix4fvLine");
 //    glVertexAttribPointer(gvPositionHandle, 3, GL_FLOAT, GL_FALSE, 0, gTriangleVertices);
 
     glVertexAttribPointer(gvLinePositionHandle, 3, GL_FLOAT, GL_FALSE, 0, vertexArray);
-    checkGlError("glVertexAttribPointer");
+    checkGlError("glVertexAttribPointerLine");
     glEnableVertexAttribArray(gvLinePositionHandle);
-    checkGlError("glEnableVertexAttribArray");
+    checkGlError("glEnableVertexAttribArrayLine");
 
     glDrawArrays(GL_LINES, 0, 2);
     //glDrawElements(GL_TRIANGLES,man->mesh->nfaces*3,GL_UNSIGNED_SHORT,obj->mesh->indices);
